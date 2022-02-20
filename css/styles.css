@@ -1,0 +1,12 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.timer-container {
+  padding: 10px;
+  border: 3px dotted red;
+  text-align: center;
+}
