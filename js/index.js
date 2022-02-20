@@ -47,15 +47,71 @@ const timeEl = document.querySelector('.time');
 const [startBtn, stopBtn, resetBtn] = document.querySelectorAll('button');
 
 let time = new Date(0);
+const DELAY = 100;
+let timerId;
 
-timeEl.textContent = `
-${formatTime(time.getMinutes())}
-:${formatTime(time.getSeconds())}
-.${formatMs(time.getMilliseconds())}`;
+updateTime(time);
+
+startBtn.addEventListener('click', startBtnHandler);
+stopBtn.addEventListener('click', stopBtnHandler);
+resetBtn.addEventListener('click', resetBtnHandler);
+
+function startBtnHandler() {
+  if (timerId) {
+    return;
+  }
+  timerId = setInterval(() => {
+    time.setMilliseconds(time.getMilliseconds() + DELAY);
+    updateTime(time);
+  }, DELAY);
+}
+
+function stopBtnHandler() {
+  clearInterval(timerId);
+  timerId = null;
+}
+
+function resetBtnHandler() {
+  time = new Date(0);
+  updateTime(time);
+}
+
+function updateTime(t) {
+  timeEl.textContent = `
+  ${formatTime(t.getMinutes())}:${formatTime(t.getSeconds())}.${formatMs(
+    t.getMilliseconds()
+  )}`;
+}
 
 function formatTime(t) {
   return t < 10 ? `0${t}` : `${t}`;
 }
 
 // 5=>005, 20=>020, 222=>222
-function formatMs() {}
+function formatMs(t) {
+  if (t.toString().length === 1) return `00${t}`;
+  if (t.toString().length === 2) return `0${t}`;
+  if (t.toString().length === 3) return `${t}`;
+}
+
+//-----------------------------------
+function second() {
+  console.log('Hi :>> ');
+}
+
+function first() {
+  second();
+}
+
+debugger;
+first();
+
+setTimeout(() => {
+  console.log('Hi :>> ');
+}, 1000);
+
+load('http://152.125.126.121:3000', () => {
+  render();
+});
+
+console.log('end :>> ');
